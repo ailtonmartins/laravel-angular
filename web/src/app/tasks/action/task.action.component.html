@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Editar</h1>
+<div mat-dialog-content>
+
+  <div class="example-container">
+    <mat-form-field>
+      <input matInput [(ngModel)]="value['titulo']" placeholder="Titulo">
+    </mat-form-field>
+    <mat-form-field>
+       <input matInput [(ngModel)]="value['descricao']" placeholder="Descrição">
+    </mat-form-field>
+    <mat-checkbox   [(ngModel)]="value['status']">Status</mat-checkbox>
+  </div>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="close()">Fechar</button>
+  <button mat-button (click)="save()">Salvar</button>
+</div>
