@@ -11,4 +11,7 @@ class Tasks extends Model
 
     protected $fillable = ['titulo', 'status', 'descricao'];
     protected $dates = ['deleted_at'];
+    protected $casts = [
+        'status' => 'boolean'
+    ];
 }
