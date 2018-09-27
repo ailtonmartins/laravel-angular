@@ -1,36 +1,33 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Task} from "../model/task";
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
 
-  endpoint: string = 'http://localhost:8000/api/task';
+  endpoint = '';
 
-  constructor(private http: HttpClient) { }
+  constructor( private http: HttpClient ) {
+    this.endpoint = environment.url;
+  }
 
-  get(query='') {
-    return this.http.get<Task[]>(this.endpoint+'?'+query);
+  get(query = '') {
+    return this.http.get<Task[]>(this.endpoint + '?' + query );
   }
 
   getById(id: number) {
     return this.http.get<Task>(this.endpoint + '/' + id);
   }
 
-  create(user: Task) {
-    return this.http.post(this.endpoint, user);
+  create(task: Task) {
+    return this.http.post(this.endpoint, task);
   }
 
-  update(user: Task) {
-
-      const headers = new HttpHeaders()
-      .set("Content-Type", "application/json");
-
-    let url = this.endpoint + '/' + user.id;
-
-    return this.http.put(url, JSON.stringify(user),   {headers});
+  update(task: Task) {
+    return this.http.put<Task>( this.endpoint + '/' + task.id, task );
   }
 
   delete(id: number) {

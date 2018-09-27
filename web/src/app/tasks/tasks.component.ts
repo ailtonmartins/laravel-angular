@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {TasksService} from "../service/tasks.service";
 import {Task} from "../model/task";
-import {MatDialog, MatPaginator, MatSort} from "@angular/material";
+import {MatDialog, MatPaginator, MatSnackBar, MatSort} from '@angular/material';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {TaskActionComponent} from "./action/task.action.component";
@@ -25,7 +25,7 @@ export class TasksComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor( public service:TasksService , public dialog: MatDialog) {
+  constructor( public service:TasksService , public dialog: MatDialog ,  public snackBar: MatSnackBar) {
 
   }
 
@@ -51,15 +51,68 @@ export class TasksComponent implements OnInit {
           return observableOf([]);
         })
       ).subscribe((data) => {
-                                    this.tasks = data
+                                    this.tasks = data;
                                  });
   }
 
+  reloadList() {
+     this.paginator._changePageSize(5);
+  }
+
+  updateStatus(row) {
+    row.status = !row.status;
+    this.isLoadingResults = true;
+    this.service.update( row ).subscribe( (data) => {
+      this.snackBar.open('Alterado o status com sucesso', 'Salvo', {
+        duration: 2000,
+      });
+      this.isLoadingResults = false;
+      this.reloadList();
+    } , (error) => {
+      this.snackBar.open('Erro ao salvar', 'Erro', {
+        duration: 2000,
+      });
+    });
+  }
+
+  delete(row) {
+    this.isLoadingResults = true;
+    this.service.delete( row.id ).subscribe( (data) => {
+      this.snackBar.open('Deletado com sucesso', 'Salvo', {
+        duration: 2000,
+      });
+      this.isLoadingResults = false;
+      this.reloadList();
+    } , (error) => {
+      this.snackBar.open('Erro ao deletar', 'Erro', {
+        duration: 2000,
+      });
+    });
+  }
+
   editar( row ) {
+
+      const parent = this;
       const dialogRef = this.dialog.open(TaskActionComponent, {
-        width: '250px',
-        data: row
+        width: '400px',
+        data: { value: row , event : function() {
+                                                   parent.reloadList();
+                                                }
+              }
       });
   }
+
+  novo( row ) {
+
+    const parent = this;
+    const dialogRef = this.dialog.open(TaskActionComponent, {
+      width: '400px',
+      data: { event : function() {
+          parent.reloadList();
+        }
+      }
+    });
+  }
+
 
 }

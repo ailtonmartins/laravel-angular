@@ -1,13 +1,14 @@
-<h1 mat-dialog-title>Editar</h1>
+<h1 mat-dialog-title>{{ value['id'] ? 'Editar' : 'Novo' }}</h1>
 <div mat-dialog-content>
 
   <div class="example-container">
-    <mat-form-field>
+    <mat-form-field style="width: 100%" >
       <input matInput [(ngModel)]="value['titulo']" placeholder="Titulo">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field style="width: 100%">
        <input matInput [(ngModel)]="value['descricao']" placeholder="Descrição">
     </mat-form-field>
+    <br/>
     <mat-checkbox   [(ngModel)]="value['status']">Status</mat-checkbox>
   </div>
 

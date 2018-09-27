@@ -15,32 +15,46 @@ export class TaskActionComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<TaskActionComponent>,
-    @Inject(MAT_DIALOG_DATA) public data , public service: TasksService , public snackBar: MatSnackBar) {
+    @Inject(MAT_DIALOG_DATA) public data ,
+    public service: TasksService,
+    public snackBar: MatSnackBar) {
 
-    if ( this.data ) {
-        this.value['id'] = this.data.id;
-        this.value['titulo'] = this.data.titulo;
-        this.value['descricao'] = this.data.descricao;
-        this.value['status'] = this.data.status;
+    if ( this.data.value ) {
+        this.value['id'] = this.data.value.id;
+        this.value['titulo'] = this.data.value.titulo;
+        this.value['descricao'] = this.data.value.descricao;
+        this.value['status'] = this.data.value.status;
     }
 
   }
 
   save () {
 
-    if (this.data) {
+    if (this.data.value) {
           this.service.update( this.value ).subscribe( (data) => {
             this.close();
-            this.snackBar.open('Salvo com sucesso', 'Salvo', {
+            this.snackBar.open('Alterado com sucesso', 'Salvo', {
               duration: 2000,
             });
+            this.data.event();
+
           } , (error) => {
               this.snackBar.open('Erro ao salvar', 'Erro', {
                 duration: 2000,
               });
           });
     } else {
-
+          this.service.create( this.value ).subscribe( (data) => {
+            this.close();
+            this.snackBar.open('Salvo com sucesso', 'Salvo', {
+              duration: 2000,
+            });
+            this.data.event();
+          } , (error) => {
+            this.snackBar.open('Erro ao salvar', 'Erro', {
+              duration: 2000,
+            });
+          });
     }
 
   }
