@@ -37,3 +37,13 @@ php artisan serve
 Vamos testar 
   
  [http://localhost:8000/](http://localhost:8000/)
+ 
+ Rotas da API
+ ``` 
+GET    - /api/task
+GET    - /api/task/123
+POST   - /api/task
+PUT    - /api/task/123
+DELETE - /api/task/123
+```
+ 
