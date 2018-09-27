@@ -102,7 +102,7 @@ export class TasksComponent implements OnInit {
       });
   }
 
-  novo( row ) {
+  novo( ) {
 
     const parent = this;
     const dialogRef = this.dialog.open(TaskActionComponent, {

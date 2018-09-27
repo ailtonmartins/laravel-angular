@@ -11,7 +11,7 @@ export class TasksService {
   endpoint = '';
 
   constructor( private http: HttpClient ) {
-    this.endpoint = environment.url;
+    this.endpoint = environment.url +  '/task';
   }
 
   get(query = '') {
@@ -23,7 +23,7 @@ export class TasksService {
   }
 
   create(task: Task) {
-    return this.http.post(this.endpoint, task);
+    return this.http.post<Task>(this.endpoint, task);
   }
 
   update(task: Task) {
