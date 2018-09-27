@@ -1,4 +1,4 @@
- API - Laravel 5.5
+ API - Laravel 5.5 (usando exclusão lógica)
 =================
 
 Requisito
