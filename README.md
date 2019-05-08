@@ -1,4 +1,4 @@
-# Nexxera
+# Laravel + Angular
 
 ## Inicio
 
